@@ -8,8 +8,8 @@ module "subnets" {
   for_each = var.subnets
   subnets  = each.value
   vpc_id   = aws_vpc.main.id
-  tags     = local.tags
-  env      = var.env
+#  tags     = local.tags
+#  env      = var.env
 }
 
 resource "aws_internet_gateway" "igw" {
@@ -47,7 +47,7 @@ resource "aws_vpc_peering_connection" "peering" {
   peer_vpc_id = aws_vpc.main.id
   vpc_id      = var.default_vpc_id
   auto_accept = true
-  tags        = merge(local.tags, { Name = "${var.env}-peer" })
+  //tags        = merge(local.tags, { Name = "${var.env}-peer" })
 }
 
 resource "aws_route" "peer" {
