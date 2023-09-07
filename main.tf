@@ -1,6 +1,6 @@
 resource "aws_vpc" "main" {
   cidr_block = var.cidr
- tags       = merge(local.tags, { Name = "${var.env}-vpc" })
+# tags       = merge(local.tags, { Name = "${var.env}-vpc" })
 }
 
 module "subnets" {
@@ -11,24 +11,24 @@ module "subnets" {
 #  tags     = local.tags
 #  env      = var.env
 }
-
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
-#  tags   = merge(local.tags, { Name = "${var.env}-igw" })
-  tags={
-    Name="main"
-  }
-}
-
-resource "aws_route" "igw" {
-  for_each               = lookup(lookup(module.subnets, "public", null), "route_table_ids", null)
-  route_table_id         = each.value["id"]
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.igw.id
-}
-output "subnet" {
-  value = module.subnets
-}
+#
+#resource "aws_internet_gateway" "igw" {
+#  vpc_id = aws_vpc.main.id
+##  tags   = merge(local.tags, { Name = "${var.env}-igw" })
+#  tags={
+#    Name="main"
+#  }
+#}
+#
+#resource "aws_route" "igw" {
+#  for_each               = lookup(lookup(module.subnets, "public", null), "route_table_ids", null)
+#  route_table_id         = each.value["id"]
+#  destination_cidr_block = "0.0.0.0/0"
+#  gateway_id             = aws_internet_gateway.igw.id
+#}
+#output "subnet" {
+#  value = module.subnets
+#}
 
 #resource "aws_eip" "ngw" {
 #  count  = length(local.public_subnet_ids)
