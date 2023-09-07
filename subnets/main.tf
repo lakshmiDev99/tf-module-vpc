@@ -10,13 +10,15 @@ resource "aws_subnet" "main" {
   }
 
 
-variable "subnets"{}
-variable "vpc_id"{}
-#resource "aws_route_table" "main" {
-#  for_each = var.subnets
-#  vpc_id = var.vpc_id
-##  tags       = merge(var.tags, { Name = "${var.env}-${each.key}-rt" })
-#}
+
+resource "aws_route_table" "main" {
+  for_each = var.subnets
+  vpc_id = var.vpc_id
+  tags = {
+    Name=each.key
+  }
+#  tags       = merge(var.tags, { Name = "${var.env}-${each.key}-rt" })
+}
 #
 #resource "aws_route_table_association" "a" {
 #  for_each = var.subnets
