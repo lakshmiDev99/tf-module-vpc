@@ -32,17 +32,22 @@ output "subnet" {
   value = module.subnets
 }
 
-#resource "aws_eip" "ngw" {
-#  count  = length(local.public_subnet_ids)
-#  domain = "vpc"
-#}
+resource "aws_eip" "ngw" {
+  for_each               = lookup(lookup(module.subnets, "public", null), "route_table_ids", null)
+  #  count  = length(local.public_subnet_ids)
+  domain = "vpc"
+}
 #
-#resource "aws_nat_gateway" "ngw" {
+resource "aws_nat_gateway" "ngw" {
+  for_each               = lookup(lookup(module.subnets, "public", null), "route_table_ids", null)
+  allocation_id = lookup(aws_eip,each.value["id"],null)
+  subnet_id = each.value["id"]
+
 #  count         = length(local.public_subnet_ids)
 #  allocation_id = element(aws_eip.ngw.*.id, count.index)
 #  subnet_id     = element(local.public_subnet_ids, count.index)
 #  tags          = merge(local.tags, { Name = "${var.env}-ngw" })
-#}
+}
 #
 #resource "aws_route" "ngw" {
 #  count                  = length(local.private_route_table_ids)
