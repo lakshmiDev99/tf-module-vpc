@@ -28,13 +28,6 @@ resource "aws_route" "igw" {
   gateway_id             = aws_internet_gateway.igw.id
 }
 #
-#output "subnet" {
-#  value = module.subnets
-#}
-
-output "public_subnet_ids" {
-  value = local.public_subnet_ids
-}
 
 resource "aws_eip" "ngw" {
   count  = length(local.public_subnet_ids)
@@ -55,12 +48,12 @@ resource "aws_route" "ngw" {
   nat_gateway_id         = element(aws_nat_gateway.ngw.*.id, count.index)
 }
 #
-#resource "aws_vpc_peering_connection" "peering" {
-#  peer_vpc_id = aws_vpc.main.id
-#  vpc_id      = var.default_vpc_id
-#  auto_accept = true
+resource "aws_vpc_peering_connection" "peering" {
+  peer_vpc_id = aws_vpc.main.id
+  vpc_id      = var.default_vpc_id
+  auto_accept = true
 #  tags        = merge(local.tags, { Name = "${var.env}-peer" })
-#}
+}
 #
 #resource "aws_route" "peer" {
 #  count                     = length(local.private_route_table_ids)
