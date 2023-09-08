@@ -20,9 +20,9 @@ resource "aws_route_table" "main" {
 #  tags       = merge(var.tags, { Name = "${var.env}-${each.key}-rt" })
 }
 #
-#resource "aws_route_table_association" "a" {
-#  for_each = var.subnets
-#  subnet_id      = lookup(lookup(aws_subnet.main,each.key,null),"id",null )
-#  route_table_id = lookup(lookup(aws_route_table.main,each.key,null),"id",null )
-#}
+resource "aws_route_table_association" "a" {
+  for_each = var.subnets
+  subnet_id      = lookup(lookup(aws_subnet.main,each.key,null),"id",null )
+  route_table_id = lookup(lookup(aws_route_table.main,each.key,null),"id",null )
+}
 
