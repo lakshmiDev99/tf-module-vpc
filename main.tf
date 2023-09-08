@@ -12,14 +12,14 @@ module "subnets" {
 #  env      = var.env
 }
 #
-#resource "aws_internet_gateway" "igw" {
-#  vpc_id = aws_vpc.main.id
-##  tags   = merge(local.tags, { Name = "${var.env}-igw" })
-#  tags={
-#    Name="main"
-#  }
-#}
-#
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+#  tags   = merge(local.tags, { Name = "${var.env}-igw" })
+  tags={
+    Name="main"
+  }
+}
+
 #resource "aws_route" "igw" {
 #  for_each               = lookup(lookup(module.subnets, "public", null), "route_table_ids", null)
 #  route_table_id         = each.value["id"]
