@@ -26,9 +26,9 @@ resource "aws_internet_gateway" "igw" {
 #  destination_cidr_block = "0.0.0.0/0"
 #  gateway_id             = aws_internet_gateway.igw.id
 #}
-#output "subnet" {
-#  value = module.subnets
-#}
+output "subnet" {
+  value = module.subnets
+}
 
 #resource "aws_eip" "ngw" {
 #  count  = length(local.public_subnet_ids)
